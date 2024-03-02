@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 import { converterCategories } from "@/config/convertersCategoriesConfig";
 import { ConverterFunction, ConverterType } from "@/utils/numberConverters";
 

@@ -33,4 +33,18 @@ export const converterCategories: ConverterCategory[] = [
       },
     ],
   },
+  {
+    name: "Units Converters",
+    icon: TbNumber,
+    subCategories: [
+      {
+        name: "Decimal to Roman",
+        converterFunction: converterFunctions.decimalToRoman,
+      },
+      {
+        name: "Binary to Roman",
+        converterFunction: converterFunctions.binaryToRoman,
+      },
+    ],
+  },
 ];
