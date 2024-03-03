@@ -35,14 +35,14 @@ export const converterCategories: ConverterCategory[] = [
   },
   {
     name: "Units Converters",
-    icon: TbNumber,
+    icon: HiCubeTransparent,
     subCategories: [
       {
-        name: "Decimal to Roman",
+        name: "KG-POUND",
         converterFunction: converterFunctions.decimalToRoman,
       },
       {
-        name: "Binary to Roman",
+        name: "CM-METER",
         converterFunction: converterFunctions.binaryToRoman,
       },
     ],

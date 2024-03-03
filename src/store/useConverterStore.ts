@@ -1,12 +1,15 @@
 import { create } from "zustand";
 import { converterCategories } from "@/config/convertersCategoriesConfig";
-import { ConverterFunction, ConverterType } from "@/utils/numberConverters";
+import { ConverterType } from "@/utils/numberConverters";
 
 type ConverterStore = {
   currentCategoryName: string;
   currentConverter: ConverterType;
   inputValue: string;
   outputValue: string;
+  isLoading: boolean;
+  errorMessage: string | null;
+  successMessage: string | null;
   setCurrentCategoryByName: (categoryName: string) => void;
   setCurrentConverter: (converter: ConverterType) => void;
   setInputValue: (value: string) => void;
@@ -37,28 +40,33 @@ const useConverterStore = create<ConverterStore>((set) => ({
   },
   setCurrentConverter: (converter) => set({ currentConverter: converter }),
   setInputValue: (value) => set({ inputValue: value }),
-  convert: () => {
+  isLoading: false,
+  errorMessage: null,
+  successMessage: null,
+  convert: async () => {
+    set({ isLoading: true, errorMessage: null, successMessage: null });
     const { currentConverter, inputValue } = useConverterStore.getState();
     const category = converterCategories.find(
-      (category) =>
-        category.name === useConverterStore.getState().currentCategoryName
+      (c) => c.name === useConverterStore.getState().currentCategoryName
     );
-    const converter: ConverterFunction | undefined =
-      category?.subCategories.find(
-        (sub) => sub.name === currentConverter
-      )?.converterFunction;
+    const converter = category?.subCategories.find(
+      (sub) => sub.name === currentConverter
+    )?.converterFunction;
 
-    if (converter) {
-      try {
-        const result = converter(inputValue);
-        set({ outputValue: result });
-      } catch (error) {
-        console.error(error);
-        set({ outputValue: "Error: Invalid input" });
+    try {
+      if (converter) {
+        const result = await converter(inputValue);
+        set({
+          outputValue: result,
+          isLoading: false,
+          successMessage: "Conversion successful!",
+        });
+      } else {
+        set({ isLoading: false, errorMessage: "Converter not found" });
       }
-    } else {
-      console.error("Converter function not found:", currentConverter);
-      set({ outputValue: "Error: Converter not found" });
+    } catch (error) {
+      console.error(error);
+      set({ isLoading: false, errorMessage: "Error: Invalid input" });
     }
   },
 }));
