@@ -19,6 +19,7 @@ const Navigation = () => {
             {navLinks.map((link) => (
               <li key={link.title} className="nav-item">
                 <Link
+                  prefetch={false}
                   href={link.href}
                   className="flex items-center hover:text-gray-300 p-2 rounded-lg transition-colors duration-200"
                 >

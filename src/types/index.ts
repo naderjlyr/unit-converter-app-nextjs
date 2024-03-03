@@ -1,10 +1,10 @@
+import { numberConverters } from "@/utils";
 import { FC, SVGProps } from "react";
 import { z } from "zod";
-import { converterFunctions } from "@/utils";
 
 export type ConverterFunction = (input: string) => string;
 
-export type ConverterType = keyof typeof converterFunctions;
+export type ConverterType = keyof typeof numberConverters;
 
 export type ConverterSubCategory = {
   name: string;
