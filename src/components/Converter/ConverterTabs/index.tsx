@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
 import { Tabs } from "flowbite-react";
-import { converterCategories } from "@/config/convertersCategoriesConfig";
+import { converterCategories } from "@/config/convertersConfig";
 import ConverterForm from "@/components/Converter/ConverterForm";
 import useConverterStore from "@/store/useConverterStore";
-import { ConverterType } from "@/utils/numberConverters";
+import { ConverterType } from "@/types";
 
 const ConverterTabs = () => {
   const { setCurrentConverter, currentConverter } = useConverterStore();
@@ -13,7 +13,7 @@ const ConverterTabs = () => {
   );
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto py-2 px-2">
       <Tabs aria-label="Converter tabs" style="underline">
         {converterCategories.map((category) => (
           <Tabs.Item

@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { converterCategories } from "@/config/convertersCategoriesConfig";
-import { ConverterType } from "@/utils/numberConverters";
+import { converterCategories } from "@/config/convertersConfig";
+import { ConverterType } from "@/types";
 
 type ConverterStore = {
   currentCategoryName: string;
@@ -8,11 +8,11 @@ type ConverterStore = {
   inputValue: string;
   outputValue: string;
   isLoading: boolean;
-  errorMessage: string | null;
-  successMessage: string | null;
+
   setCurrentCategoryByName: (categoryName: string) => void;
   setCurrentConverter: (converter: ConverterType) => void;
   setInputValue: (value: string) => void;
+  resetText: () => void;
   convert: () => void;
 };
 
@@ -43,6 +43,11 @@ const useConverterStore = create<ConverterStore>((set) => ({
   isLoading: false,
   errorMessage: null,
   successMessage: null,
+  resetText: () =>
+    set({
+      inputValue: "",
+      outputValue: "",
+    }),
   convert: async () => {
     set({ isLoading: true, errorMessage: null, successMessage: null });
     const { currentConverter, inputValue } = useConverterStore.getState();

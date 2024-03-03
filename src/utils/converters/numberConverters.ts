@@ -1,4 +1,6 @@
-const decimalToRomanConverter: ConverterFunction = (decimalInput) => {
+import { ConverterFunction } from "@/types";
+
+export const decimalToRoman: ConverterFunction = (decimalInput) => {
   let remainingDecimal = parseInt(decimalInput, 10);
   const decimalToRomanMap: [number, string][] = [
     [1000, "M"],
@@ -28,18 +30,7 @@ const decimalToRomanConverter: ConverterFunction = (decimalInput) => {
   );
 };
 
-const binaryToRomanConverter: ConverterFunction = (binaryInput) => {
+export const binaryToRoman: ConverterFunction = (binaryInput) => {
   const decimalNumber = parseInt(binaryInput, 2);
-  return decimalToRomanConverter(decimalNumber.toString());
+  return decimalToRoman(decimalNumber.toString());
 };
-
-export const converterFunctions = {
-  decimalToRoman: decimalToRomanConverter,
-  binaryToRoman: binaryToRomanConverter,
-};
-
-export type ConverterFunction = (input: string) => string;
-
-export type ConverterType = keyof typeof converterFunctions;
-
-export { decimalToRomanConverter, binaryToRomanConverter };

@@ -1,32 +1,36 @@
 "use client";
-import { ChangeEvent, useState, useEffect } from "react";
-import { Label, TextInput, Spinner, Alert } from "flowbite-react";
+import React, { useState, useEffect, ChangeEvent } from "react";
+import { Label, TextInput, Spinner } from "flowbite-react";
 import useConverterStore from "@/store/useConverterStore";
 import useDebounce from "@/hooks/useDebounce";
 
 const ConverterForm = () => {
   const {
     currentConverter,
-    inputValue,
-    outputValue,
     setInputValue,
     isLoading,
-    errorMessage,
-    successMessage,
     convert,
+    outputValue,
+    resetText,
   } = useConverterStore();
-  const [tempInput, setTempInput] = useState(inputValue);
-  const debouncedInput = useDebounce(tempInput, 500);
+
+  const [inputValue, setInput] = useState("");
+  const debouncedInput = useDebounce(inputValue, 500);
 
   useEffect(() => {
-    if (debouncedInput !== inputValue) {
+    if (debouncedInput !== "") {
       setInputValue(debouncedInput);
       convert();
     }
   }, [debouncedInput, setInputValue, convert]);
 
+  useEffect(() => {
+    resetText();
+    setInput("");
+  }, [currentConverter, resetText]);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTempInput(e.target.value);
+    setInput(e.target.value);
   };
 
   return (
@@ -40,14 +44,13 @@ const ConverterForm = () => {
           id="inputValue"
           type="text"
           placeholder={`Enter ${currentConverter.split(" to ")[0]}`}
-          value={tempInput}
+          value={inputValue}
           onChange={handleInputChange}
+          disabled={isLoading}
         />
       </div>
       {isLoading ? (
-        <div className="flex justify-center">
-          <Spinner size="md" />
-        </div>
+        <Spinner size="md" className="self-center" />
       ) : (
         <div>
           <Label
@@ -63,8 +66,6 @@ const ConverterForm = () => {
           />
         </div>
       )}
-      {errorMessage && <Alert color="failure">{errorMessage}</Alert>}
-      {successMessage && <Alert color="success">{successMessage}</Alert>}
     </div>
   );
 };
