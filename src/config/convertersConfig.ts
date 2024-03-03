@@ -7,7 +7,11 @@ import {
   binaryToRomanSchema,
 } from "@/validations/numberConvertersSchema";
 import { z } from "zod";
-import { numberConverters } from "@/utils";
+import { numberConverters, unitConverters } from "@/utils";
+import {
+  centimeterToInchSchema,
+  kilogramToPoundSchema,
+} from "@/validations/unitConvertersSchema";
 
 export type ConverterConfig = {
   name: string;
@@ -38,18 +42,18 @@ export const converterCategories: ConverterConfig[] = [
   },
 
   {
-    name: "Units Converters",
+    name: "Unit Converters",
     icon: HiCubeTransparent,
     subCategories: [
       {
-        name: "KG-Pound",
-        converterFunction: numberConverters.decimalToRoman,
-        validationSchema: decimalToRomanSchema,
+        name: "Kilogram to Pound",
+        converterFunction: unitConverters.kilogramToPound,
+        validationSchema: kilogramToPoundSchema,
       },
       {
-        name: "Cm-Meter",
-        converterFunction: numberConverters.binaryToRoman,
-        validationSchema: binaryToRomanSchema,
+        name: "Centimeter to Inch",
+        converterFunction: unitConverters.centimeterToInch,
+        validationSchema: centimeterToInchSchema,
       },
     ],
   },

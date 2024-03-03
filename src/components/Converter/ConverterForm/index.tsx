@@ -1,11 +1,11 @@
 "use client";
 import { Label, TextInput, Spinner } from "flowbite-react";
 import useConverterForm from "@/hooks/useConverterForm";
-import { memo } from "react";
 
-const ConverterForm = memo(() => {
+const ConverterForm = () => {
   const { register, errors, isLoading, outputValue, currentConverter } =
     useConverterForm();
+
   return (
     <form className="flex flex-col gap-4">
       <div>
@@ -14,11 +14,11 @@ const ConverterForm = memo(() => {
           {...register("inputValue")}
           id="inputValue"
           type="text"
-          placeholder={`Enter ${currentConverter.split(" to ")[0]} Value`}
+          placeholder={`Enter ${currentConverter.split(" to ")[0]}`}
           disabled={isLoading}
           className={errors.inputValue && "border-red-500"}
           helperText={
-            errors.inputValue ? errors.inputValue.message : currentConverter
+            errors.inputValue ? errors.inputValue.message : "Enter your "
           }
         />
       </div>
@@ -37,7 +37,6 @@ const ConverterForm = memo(() => {
       )}
     </form>
   );
-});
-ConverterForm.displayName = "ConverterForm";
+};
 
 export default ConverterForm;

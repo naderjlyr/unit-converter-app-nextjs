@@ -9,11 +9,12 @@ type ConverterStore = {
   isLoading: boolean;
   errorMessage: string | null;
   successMessage: string | null;
-  setCurrentConverter: (converter: ConverterType) => void;
+  setActiveSubCategory: (subCategoryName: string) => void;
+  setCurrentCategory: (categoryName: string) => void;
   convert: (inputValue: string) => void;
 };
 
-const useConverterStore = create<ConverterStore>((set) => ({
+const useConverterStore = create<ConverterStore>((set, get) => ({
   currentCategoryName: converterCategories[0].name,
   currentConverter: converterCategories[0].subCategories[0]
     .name as ConverterType,
@@ -22,12 +23,33 @@ const useConverterStore = create<ConverterStore>((set) => ({
   errorMessage: null,
   successMessage: null,
 
-  setCurrentConverter: (converter) => set({ currentConverter: converter }),
+  setActiveSubCategory: (subCategoryName: string) => {
+    const currentCategory = converterCategories.find((category) =>
+      category.subCategories.some((sub) => sub.name === subCategoryName)
+    );
+    if (currentCategory) {
+      set({
+        currentConverter: subCategoryName as ConverterType,
+        currentCategoryName: currentCategory.name,
+      });
+    }
+  },
+
+  setCurrentCategory: (categoryName: string) => {
+    const category = converterCategories.find((c) => c.name === categoryName);
+    if (category && category.subCategories.length > 0) {
+      set({
+        currentCategoryName: categoryName,
+        currentConverter: category.subCategories[0].name as ConverterType,
+      });
+    }
+  },
+
   convert: async (inputValue) => {
     set({ isLoading: true, errorMessage: null, successMessage: null });
-    const { currentConverter } = useConverterStore.getState();
+    const { currentConverter, currentCategoryName } = get();
     const category = converterCategories.find(
-      (c) => c.name === useConverterStore.getState().currentCategoryName
+      (c) => c.name === currentCategoryName
     );
     const converterFunction = category?.subCategories.find(
       (sub) => sub.name === currentConverter
@@ -45,8 +67,8 @@ const useConverterStore = create<ConverterStore>((set) => ({
         set({ isLoading: false, errorMessage: "Converter not found" });
       }
     } catch (error) {
-      console.error(error);
-      set({ isLoading: false, errorMessage: "Error: Invalid input" });
+      console.error("Conversion error:", error);
+      set({ isLoading: false, errorMessage: "Error during conversion" });
     }
   },
 }));

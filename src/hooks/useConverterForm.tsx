@@ -20,7 +20,9 @@ const useConverterForm = () => {
         ?.validationSchema || z.object({})
     );
   };
-
+  useEffect(() => {
+    const schema = getSchema(currentConverter);
+  }, [currentConverter]);
   const {
     register,
     watch,
