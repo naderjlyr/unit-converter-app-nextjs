@@ -1,5 +1,5 @@
 import { FC, SVGProps } from "react";
-import { TbNumber } from "react-icons/tb";
+import { TbDecimal, TbNumber, TbRulerMeasure } from "react-icons/tb";
 import { HiCubeTransparent } from "react-icons/hi";
 
 import {
@@ -12,6 +12,8 @@ import {
   centimeterToInchSchema,
   kilogramToPoundSchema,
 } from "@/validations/unitConvertersSchema";
+import { LuBinary } from "react-icons/lu";
+import { GiWeight } from "react-icons/gi";
 
 export type ConverterConfig = {
   name: string;
@@ -20,6 +22,7 @@ export type ConverterConfig = {
     name: string;
     converterFunction: (input: string) => string;
     validationSchema: z.ZodSchema<any>;
+    icon: FC<SVGProps<SVGSVGElement>>;
   }[];
 };
 
@@ -32,11 +35,13 @@ export const converterCategories: ConverterConfig[] = [
         name: "Decimal to Roman",
         converterFunction: numberConverters.decimalToRoman,
         validationSchema: decimalToRomanSchema,
+        icon: TbDecimal,
       },
       {
         name: "Binary to Roman",
         converterFunction: numberConverters.binaryToRoman,
         validationSchema: binaryToRomanSchema,
+        icon: LuBinary,
       },
     ],
   },
@@ -49,11 +54,13 @@ export const converterCategories: ConverterConfig[] = [
         name: "Kilogram to Pound",
         converterFunction: unitConverters.kilogramToPound,
         validationSchema: kilogramToPoundSchema,
+        icon: GiWeight,
       },
       {
         name: "Centimeter to Inch",
         converterFunction: unitConverters.centimeterToInch,
         validationSchema: centimeterToInchSchema,
+        icon: TbRulerMeasure,
       },
     ],
   },

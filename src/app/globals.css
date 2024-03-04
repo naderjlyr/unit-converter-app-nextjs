@@ -36,3 +36,13 @@ body {
 .focus\:ring-cyan-300:focus {
   --tw-ring-opacity: 0 !important;
 }
+.buttonActive {
+  --tw-gradient-from: #e74694;
+  --tw-gradient-to: rgb(231 70 148 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  background-image: linear-gradient(
+    to right,
+    var(--tw-gradient-from),
+    var(--tw-gradient-to)
+  );
+}

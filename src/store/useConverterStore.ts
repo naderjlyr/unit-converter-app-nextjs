@@ -26,15 +26,18 @@ const useConverterStore = create<ConverterStore>((set, get) => ({
   successMessage: null,
 
   setActiveSubCategory: (subCategoryName: string) => {
-    const currentCategory = converterCategories.find((category) =>
-      category.subCategories.some((sub) => sub.name === subCategoryName)
-    );
-    if (currentCategory) {
-      set({
-        currentConverter: subCategoryName as ConverterType,
-        currentCategoryName: currentCategory.name,
-      });
-      get().resetOutputValue();
+    const { currentConverter } = get();
+    if (currentConverter !== subCategoryName) {
+      const currentCategory = converterCategories.find((category) =>
+        category.subCategories.some((sub) => sub.name === subCategoryName)
+      );
+      if (currentCategory) {
+        set({
+          currentConverter: subCategoryName as ConverterType,
+          currentCategoryName: currentCategory.name,
+        });
+        get().resetOutputValue();
+      }
     }
   },
 
