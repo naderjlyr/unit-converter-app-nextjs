@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { converterCategories } from "@/config/convertersConfig";
+import { converterCategories } from "@/config";
 import { ConverterType } from "@/types";
+import { findCategoryByName, findSubCategoryByName } from "./helpers";
 
 type ConverterStore = {
   currentCategoryName: string;
@@ -12,6 +13,7 @@ type ConverterStore = {
   setActiveSubCategory: (subCategoryName: string) => void;
   setCurrentCategory: (categoryName: string) => void;
   convert: (inputValue: string) => void;
+  resetOutputValue: () => void;
 };
 
 const useConverterStore = create<ConverterStore>((set, get) => ({
@@ -32,32 +34,32 @@ const useConverterStore = create<ConverterStore>((set, get) => ({
         currentConverter: subCategoryName as ConverterType,
         currentCategoryName: currentCategory.name,
       });
+      get().resetOutputValue();
     }
   },
 
   setCurrentCategory: (categoryName: string) => {
-    const category = converterCategories.find((c) => c.name === categoryName);
+    const category = findCategoryByName(categoryName);
     if (category && category.subCategories.length > 0) {
       set({
         currentCategoryName: categoryName,
         currentConverter: category.subCategories[0].name as ConverterType,
       });
+      get().resetOutputValue();
     }
   },
 
-  convert: async (inputValue) => {
+  convert: (inputValue) => {
     set({ isLoading: true, errorMessage: null, successMessage: null });
     const { currentConverter, currentCategoryName } = get();
-    const category = converterCategories.find(
-      (c) => c.name === currentCategoryName
-    );
-    const converterFunction = category?.subCategories.find(
-      (sub) => sub.name === currentConverter
+    const converterFunction = findSubCategoryByName(
+      currentCategoryName,
+      currentConverter
     )?.converterFunction;
 
     try {
       if (converterFunction) {
-        const result = await converterFunction(inputValue);
+        const result = converterFunction(inputValue);
         set({
           outputValue: result,
           isLoading: false,
@@ -70,6 +72,9 @@ const useConverterStore = create<ConverterStore>((set, get) => ({
       console.error("Conversion error:", error);
       set({ isLoading: false, errorMessage: "Error during conversion" });
     }
+  },
+  resetOutputValue: () => {
+    set({ outputValue: "" });
   },
 }));
 

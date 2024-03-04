@@ -1,15 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useConverterStore from "@/store/useConverterStore";
-import { converterCategories } from "@/config/convertersConfig";
-import { z } from "zod";
+import { converterCategories } from "@/config";
 import useDebounce from "./useDebounce";
 import { ConverterType } from "@/types";
+import { z } from "zod";
 
 const useConverterForm = () => {
-  const { currentConverter, convert, isLoading, outputValue } =
-    useConverterStore();
+  const { currentConverter, convert, outputValue } = useConverterStore();
+  const [localLoading, setLocalLoading] = useState(false);
 
   const getSchema = (currentConverter: ConverterType) => {
     const category = converterCategories.find((c) =>
@@ -20,15 +20,8 @@ const useConverterForm = () => {
         ?.validationSchema || z.object({})
     );
   };
-  useEffect(() => {
-    const schema = getSchema(currentConverter);
-  }, [currentConverter]);
-  const {
-    register,
-    watch,
-    formState: { errors },
-    setValue,
-  } = useForm({
+
+  const formMethods = useForm({
     resolver: zodResolver(getSchema(currentConverter)),
     mode: "onChange",
     defaultValues: {
@@ -36,22 +29,42 @@ const useConverterForm = () => {
     },
   });
 
+  const {
+    register,
+    watch,
+    reset,
+    handleSubmit,
+    formState: { errors, isValid },
+    setValue,
+  } = formMethods;
+
   const inputValue = watch("inputValue");
-  const debouncedInputValue = useDebounce(inputValue, 500);
+  const debouncedInputValue = useDebounce(inputValue, 600);
 
   useEffect(() => {
-    if (debouncedInputValue) {
-      convert(debouncedInputValue);
+    if (debouncedInputValue && isValid) {
+      setLocalLoading(true);
+      const timer = setTimeout(() => {
+        convert(debouncedInputValue);
+        setLocalLoading(false);
+      }, 300);
+      return () => clearTimeout(timer);
     }
-  }, [debouncedInputValue, convert]);
+  }, [debouncedInputValue, convert, isValid]);
+
+  useEffect(() => {
+    reset({ inputValue: "" });
+  }, [currentConverter, reset]);
 
   return {
     register,
+    handleSubmit,
     errors,
-    isLoading,
+    isLoading: localLoading,
     outputValue,
     setValue,
     currentConverter,
+    formMethods,
   };
 };
 

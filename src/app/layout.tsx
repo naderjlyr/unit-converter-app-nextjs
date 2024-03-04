@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/ui/Navigation";
+import { Card } from "flowbite-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Navigation />
-        <main className="flex-grow flex items-center justify-center">
-          <div className="w-full max-w-4xl p-4 md:p-8">{children}</div>
+        <main className="flex-grow flex h-screen">
+          <Card className="mb-5 w-full flex justify-center items-center">
+            {children}
+          </Card>
         </main>
       </body>
     </html>

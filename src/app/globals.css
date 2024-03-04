@@ -18,12 +18,12 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-image: linear-gradient(
+    to right,
+    #f9f7f6,
+    #e8e5e3
+  ); /* Adjust colors as desired */
+
   background-repeat: no-repeat;
 }
 
@@ -31,4 +31,8 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+/* fix for flowbite-react tabs cyan border*/
+.focus\:ring-cyan-300:focus {
+  --tw-ring-opacity: 0 !important;
 }

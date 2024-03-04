@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import navLinks from "@/config/navLinks";
+import { navLinks } from "@/config";
 
 const Navigation = () => {
   return (
