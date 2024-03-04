@@ -17,9 +17,9 @@ type ConverterStore = {
 };
 
 const useConverterStore = create<ConverterStore>((set, get) => ({
-  currentCategoryName: converterCategories[0].name,
-  currentConverter: converterCategories[0].subCategories[0]
-    .name as ConverterType,
+  currentCategoryName: converterCategories[0]?.name,
+  currentConverter: converterCategories[0]?.subCategories[0]
+    ?.name as ConverterType,
   outputValue: "",
   isLoading: false,
   errorMessage: null,

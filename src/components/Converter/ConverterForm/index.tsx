@@ -21,6 +21,7 @@ const ConverterForm = () => {
               <Label htmlFor="inputValue">Enter Value to Convert</Label>
               <TextInput
                 {...register("inputValue")}
+                cy-test-id="test-input-value"
                 id="inputValue"
                 type="text"
                 placeholder={`Type here to convert from ${currentConverter.split(" to ")[0]}`}

@@ -1,3 +1,5 @@
-export * as animations from "./animations";
-export { default as navLinks } from "./navLinks";
-export * from "./convertersConfig";
+import * as animations from "./animations";
+import navLinks from "./navLinks";
+import { converterCategories } from "./convertersConfig";
+
+export { animations, navLinks, converterCategories };

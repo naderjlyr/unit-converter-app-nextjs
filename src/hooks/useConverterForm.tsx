@@ -39,7 +39,7 @@ const useConverterForm = () => {
   } = formMethods;
 
   const inputValue = watch("inputValue");
-  const debouncedInputValue = useDebounce(inputValue, 600);
+  const debouncedInputValue = useDebounce(inputValue, 100);
 
   useEffect(() => {
     if (debouncedInputValue && isValid) {
@@ -47,7 +47,7 @@ const useConverterForm = () => {
       const timer = setTimeout(() => {
         convert(debouncedInputValue);
         setLocalLoading(false);
-      }, 300);
+      }, 100);
       return () => clearTimeout(timer);
     }
   }, [debouncedInputValue, convert, isValid]);
