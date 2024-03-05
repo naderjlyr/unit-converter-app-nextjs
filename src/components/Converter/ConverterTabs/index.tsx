@@ -7,7 +7,11 @@ import { motion } from "framer-motion";
 import { tabItemVariants } from "@/config/animations";
 
 const ConverterTabs = () => {
-  const { setCurrentConverter, currentConverterEndpoint } = useConverterStore();
+  const {
+    setCurrentConverter,
+    currentConverterEndpoint,
+    currentConverterName,
+  } = useConverterStore();
 
   return (
     <Card className="w-full py-2 px-2">
@@ -47,7 +51,7 @@ const ConverterTabs = () => {
           </Tabs.Item>
         ))}
       </Tabs>
-      {currentConverterEndpoint && <ConverterForm />}
+      {<ConverterForm />}
     </Card>
   );
 };

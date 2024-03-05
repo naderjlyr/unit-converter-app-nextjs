@@ -6,8 +6,14 @@ import { alertVariants, formAnimations } from "@/config/animations";
 import { HiInformationCircle } from "react-icons/hi";
 
 const ConverterForm = () => {
-  const { register, errors, isLoading, outputValue, onSubmit } =
-    useConverterForm();
+  const {
+    register,
+    errors,
+    isLoading,
+    outputValue,
+    onSubmit,
+    currentConverterName,
+  } = useConverterForm();
   return (
     <motion.div initial="hidden" animate="visible" variants={formAnimations}>
       <div className="p-4">
@@ -22,6 +28,7 @@ const ConverterForm = () => {
               cy-test-id="test-input-value"
               id="formValue"
               type="text"
+              placeholder="Enter Your value"
               disabled={isLoading}
               color={errors.formValue?.message ? "failure" : "gray"}
               aria-label="Input value"

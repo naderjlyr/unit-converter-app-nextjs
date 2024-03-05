@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useDebounce from "./useDebounce";
+import useDebounce from "@/hooks/useDebounce";
 import useConverterStore from "@/store/useConverterStore";
 import { z } from "zod";
 import fetchConversion from "@/utils/apiCall";
@@ -15,8 +15,12 @@ export type FormDataType = {
 const useConverterForm = () => {
   const [outputValue, setOutputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const currentConverter = useConverterStore(
-    (state) => state.currentConverterEndpoint
+
+  const { currentConverterEndpoint, currentConverterName } = useConverterStore(
+    (state) => ({
+      currentConverterEndpoint: state.currentConverterEndpoint,
+      currentConverterName: state.currentConverterName,
+    })
   );
 
   const getSchema = (currentConverterEndpoint: ConverterEndpoint | null) => {
@@ -33,7 +37,7 @@ const useConverterForm = () => {
 
   const formMethods = useForm<FormDataType>({
     defaultValues: { formValue: "" },
-    resolver: zodResolver(getSchema(currentConverter)),
+    resolver: zodResolver(getSchema(currentConverterEndpoint)),
   });
 
   const {
@@ -47,17 +51,17 @@ const useConverterForm = () => {
   useEffect(() => {
     reset({ formValue: "" });
     setOutputValue("");
-  }, [currentConverter, reset]);
+  }, [currentConverterEndpoint, reset]);
 
   const inputValue = watch("formValue");
   const debouncedInputValue = useDebounce(inputValue, 500);
 
   const onSubmit = useCallback(async () => {
-    if (!currentConverter || isLoading || !debouncedInputValue) return;
+    if (!currentConverterEndpoint || isLoading || !debouncedInputValue) return;
     setIsLoading(true);
     try {
       const result = await fetchConversion(
-        currentConverter,
+        currentConverterEndpoint,
         debouncedInputValue
       );
       setOutputValue(result);
@@ -66,16 +70,16 @@ const useConverterForm = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentConverter, isLoading, debouncedInputValue]);
+  }, [currentConverterEndpoint, isLoading, debouncedInputValue]);
 
   return {
     register,
     errors,
     isLoading,
+    currentConverterName,
     outputValue,
     setIsLoading,
     setOutputValue,
-    formMethods,
     onSubmit: handleSubmit(onSubmit),
   };
 };
