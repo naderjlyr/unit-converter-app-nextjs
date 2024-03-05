@@ -18,11 +18,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background-image: linear-gradient(
-    to right,
-    #f9f7f6,
-    #e8e5e3
-  ); /* Adjust colors as desired */
+  background-image: linear-gradient(to right, #f9f7f6, #e8e5e3);
 
   background-repeat: no-repeat;
 }

@@ -12,13 +12,14 @@ const ConverterForm = () => {
   return (
     <motion.div initial="hidden" animate="visible" variants={formAnimations}>
       <div className="p-4">
-        <form className="flex flex-col gap-4 md:flex-row md:gap-6 text-black">
+        <form className="converter-form flex flex-col gap-4 md:flex-row md:gap-6 text-black">
           <div className="flex-1">
             <Label htmlFor="inputValue">Enter Value to Convert</Label>
             <TextInput
               {...register("inputValue")}
               cy-test-id="test-input-value"
               id="inputValue"
+              data-cy="test-input-value"
               type="text"
               placeholder={` ${currentConverter.split(" to ")[0]} value`}
               disabled={isLoading}
@@ -31,6 +32,7 @@ const ConverterForm = () => {
             <TextInput
               id="outputValue"
               type="text"
+              data-cy="test-output-value"
               value={outputValue}
               readOnly
               aria-label="Output value"
@@ -38,7 +40,11 @@ const ConverterForm = () => {
             />
             {isLoading && (
               <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-50">
-                <Spinner size="md" aria-label="Loading" />
+                <Spinner
+                  className="form-spinner"
+                  size="md"
+                  aria-label="Loading"
+                />
               </div>
             )}
           </div>

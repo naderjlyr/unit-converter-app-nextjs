@@ -9,8 +9,6 @@ const Navigation = () => {
         <div className="text-white font-semibold text-lg md:text-xl p-2">
           cFlox Converter
         </div>
-
-        {/* Navigation Links */}
         <div
           className="block w-full md:flex md:items-center md:w-auto"
           id="navbar-default"
@@ -22,6 +20,7 @@ const Navigation = () => {
                   prefetch={true}
                   href={link.href}
                   className="flex items-center hover:text-gray-300 p-2 rounded-lg transition-colors duration-200"
+                  data-cy={`nav-link-${link.title.toLowerCase()}`}
                 >
                   {link.icon && <link.icon className="mr-2 w-5 h-5" />}
                   {link.title}
