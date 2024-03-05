@@ -1,36 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
 import { Button, Card, Tabs } from "flowbite-react";
 import { converterCategories } from "@/config";
 import ConverterForm from "@/components/Converter/ConverterForm";
 import useConverterStore from "@/store/useConverterStore";
-import { ConverterType } from "@/types";
 import { motion } from "framer-motion";
 import { tabItemVariants } from "@/config/animations";
 
 const ConverterTabs = () => {
-  const setActiveSubCategory = useConverterStore(
-    (state) => state.setActiveSubCategory
-  );
-  const setCurrentCategory = useConverterStore(
-    (state) => state.setCurrentCategory
-  );
-  const currentConverter = useConverterStore((state) => state.currentConverter);
+  const { setCurrentConverter, currentConverterEndpoint } = useConverterStore();
 
-  const handleSubCategoryChange = (subCategoryName: string) => {
-    setActiveSubCategory(subCategoryName);
-  };
-
-  const handleCategoryChange = (categoryName: string) => {
-    setCurrentCategory(categoryName);
-  };
-  const getButtonProps = (subCategoryName: string) => {
-    const isActive = currentConverter === subCategoryName;
-    return {
-      gradientDuoTone: "purpleToPink",
-      outline: isActive ? false : true,
-    };
-  };
   return (
     <Card className="w-full py-2 px-2">
       <h2 className="text-lg font-semibold mb-4 text-black">cFlox Converter</h2>
@@ -41,14 +19,13 @@ const ConverterTabs = () => {
             title={category.name}
             icon={category.icon}
             active={category.subCategories.some(
-              (sub) => sub.name === currentConverter
+              (sub) => sub.endpoint === currentConverterEndpoint
             )}
-            onClick={() => handleCategoryChange(category.name)}
           >
             <div className="flex flex-wrap gap-2 p-2">
               {category.subCategories.map((subCategory) => (
                 <motion.div
-                  key={subCategory.name}
+                  key={subCategory.endpoint}
                   variants={tabItemVariants}
                   initial="initial"
                   animate="animate"
@@ -57,8 +34,9 @@ const ConverterTabs = () => {
                   whileTap="whileTap"
                 >
                   <Button
-                    {...getButtonProps(subCategory.name)}
-                    onClick={() => handleSubCategoryChange(subCategory.name)}
+                    gradientDuoTone="purpleToPink"
+                    outline={currentConverterEndpoint !== subCategory.endpoint}
+                    onClick={() => setCurrentConverter(subCategory.endpoint)}
                   >
                     <subCategory.icon className="inline-block mr-2 text-2xl" />
                     {subCategory.name}
@@ -69,8 +47,9 @@ const ConverterTabs = () => {
           </Tabs.Item>
         ))}
       </Tabs>
-      {currentConverter && <ConverterForm />}
+      {currentConverterEndpoint && <ConverterForm />}
     </Card>
   );
 };
+
 export default ConverterTabs;

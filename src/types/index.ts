@@ -1,21 +1,18 @@
-import { numberConverters, unitConverters } from "@/utils";
 import { FC, SVGProps } from "react";
 import { z } from "zod";
+import { ConverterEndpoint } from "./api";
 
-export type ConverterFunction = (input: string) => string;
-
-export type ConverterType =
-  | keyof typeof numberConverters
-  | keyof typeof unitConverters;
+export type ConverterFunction = (input: string) => Promise<string>;
 
 export type ConverterSubCategory = {
   name: string;
-  converterFunction: ConverterFunction;
   validationSchema: z.ZodSchema<any>;
+  icon: FC<SVGProps<SVGSVGElement>>;
+  endpoint: ConverterEndpoint;
 };
 
 export type ConverterCategory = {
   name: string;
-  icon: FC<SVGProps<SVGSVGElement>>;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
   subCategories: ConverterSubCategory[];
 };

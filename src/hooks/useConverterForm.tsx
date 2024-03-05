@@ -1,70 +1,82 @@
-import { useEffect, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useConverterStore from "@/store/useConverterStore";
-import { converterCategories } from "@/config";
 import useDebounce from "./useDebounce";
-import { ConverterType } from "@/types";
+import useConverterStore from "@/store/useConverterStore";
 import { z } from "zod";
+import fetchConversion from "@/utils/apiCall";
+import { converterCategories } from "@/config";
+import { ApiRequest, ConverterEndpoint } from "@/types/api";
+
+export type FormDataType = {
+  formValue: string;
+};
 
 const useConverterForm = () => {
-  const { currentConverter, convert, outputValue } = useConverterStore();
-  const [localLoading, setLocalLoading] = useState(false);
+  const [outputValue, setOutputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const currentConverter = useConverterStore(
+    (state) => state.currentConverterEndpoint
+  );
 
-  const getSchema = (currentConverter: ConverterType) => {
+  const getSchema = (currentConverterEndpoint: ConverterEndpoint | null) => {
+    if (!currentConverterEndpoint) return z.object({});
     const category = converterCategories.find((c) =>
-      c.subCategories.some((s) => s.name === currentConverter)
+      c.subCategories.some((sub) => sub.endpoint === currentConverterEndpoint)
     );
     return (
-      category?.subCategories.find((sub) => sub.name === currentConverter)
-        ?.validationSchema || z.object({})
+      category?.subCategories.find(
+        (sub) => sub.endpoint === currentConverterEndpoint
+      )?.validationSchema || z.object({})
     );
   };
 
-  const formMethods = useForm({
+  const formMethods = useForm<FormDataType>({
+    defaultValues: { formValue: "" },
     resolver: zodResolver(getSchema(currentConverter)),
-    mode: "onChange",
-    defaultValues: {
-      inputValue: "",
-    },
   });
 
   const {
     register,
     watch,
-    reset,
     handleSubmit,
-    formState: { errors, isValid },
-    setValue,
+    formState: { errors },
+    reset,
   } = formMethods;
 
-  const inputValue = watch("inputValue");
+  useEffect(() => {
+    reset({ formValue: "" });
+    setOutputValue("");
+  }, [currentConverter, reset]);
+
+  const inputValue = watch("formValue");
   const debouncedInputValue = useDebounce(inputValue, 500);
 
-  useEffect(() => {
-    if (debouncedInputValue && isValid) {
-      setLocalLoading(true);
-      const timer = setTimeout(() => {
-        convert(debouncedInputValue);
-        setLocalLoading(false);
-      }, 500);
-      return () => clearTimeout(timer);
+  const onSubmit = useCallback(async () => {
+    if (!currentConverter || isLoading || !debouncedInputValue) return;
+    setIsLoading(true);
+    try {
+      const result = await fetchConversion(
+        currentConverter,
+        debouncedInputValue
+      );
+      setOutputValue(result);
+    } catch (error) {
+      console.error("Error during conversion:", error);
+    } finally {
+      setIsLoading(false);
     }
-  }, [debouncedInputValue, convert, isValid]);
-
-  useEffect(() => {
-    reset({ inputValue: "" });
-  }, [currentConverter, reset]);
+  }, [currentConverter, isLoading, debouncedInputValue]);
 
   return {
     register,
-    handleSubmit,
     errors,
-    isLoading: localLoading,
+    isLoading,
     outputValue,
-    setValue,
-    currentConverter,
+    setIsLoading,
+    setOutputValue,
     formMethods,
+    onSubmit: handleSubmit(onSubmit),
   };
 };
 
