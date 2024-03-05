@@ -12,7 +12,6 @@ const navLinks: NavLink[] = [
   { title: "Home", href: "/", icon: FiHome },
   { title: "Converters", href: "/converter", icon: TbTransformFilled },
   { title: "About", href: "/about", icon: TbInfoHexagon },
-  // more links if we need.
 ];
 
 export default navLinks;

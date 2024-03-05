@@ -9,6 +9,8 @@ const Navigation = () => {
         <div className="text-white font-semibold text-lg md:text-xl p-2">
           cFlox Converter
         </div>
+
+        {/* Navigation Links */}
         <div
           className="block w-full md:flex md:items-center md:w-auto"
           id="navbar-default"

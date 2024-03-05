@@ -8,7 +8,6 @@ import { HiInformationCircle } from "react-icons/hi";
 const ConverterForm = () => {
   const { register, errors, isLoading, outputValue, currentConverter } =
     useConverterForm();
-  console.log("clicked rendered");
   return (
     <motion.div initial="hidden" animate="visible" variants={formAnimations}>
       <div className="p-4">

@@ -19,3 +19,9 @@ export type ConverterCategory = {
   icon: FC<SVGProps<SVGSVGElement>>;
   subCategories: ConverterSubCategory[];
 };
+
+export type ConversionHistoryEntry = {
+  inputValue: string;
+  result: string;
+  converter: string;
+};
