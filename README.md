@@ -1,36 +1,176 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# cFlox Converter
+
+## Introduction
+
+Hello there! I'm thrilled to present the cFlox Converter, a project I undertook as part of the hiring process for the cFlox team. This robust web application is designed to make life easier by facilitating a variety of unit and number conversions. Whether it's converting decimals to Roman numerals, binary to Roman numerals, kilograms to pounds, or centimeters to inches, cFlox Converter has got it covered.
+
+Crafted with the modern tech stack of Next.js, TypeScript, and Tailwind CSS, and enhanced with powerful libraries like Flowbite-React and Framer Motion, I aimed to create an application that not only performs well but also offers a delightful user experience. The interface is intuitive, and the design is responsive, making conversions a breeze on any device.
+
+For state management, I opted for Zustand, which provided a seamless way to handle the app's state across various conversions. This choice ensures that the user experience is fluid and hassle-free. Additionally, the application includes comprehensive testing with Cypress to ensure reliability, uses React Hook Form for efficient form handling, and incorporates client-side validations using Zod to maintain data integrity.
+
+This project was a fantastic opportunity for me to showcase my skills and contribute to the cFlox team's innovative efforts. I've poured a lot of dedication and enthusiasm into building the cFlox Converter, and I sincerely hope you enjoy using it as much as I enjoyed creating it. Cheers to making conversions easy and fun!
+
+Moreover, I'm excited to share that there's another branch of this repository which evolves the project into a full-stack application, moving beyond a single-page application (SPA) architecture. This version leverages Next.js 14's app routing API folder to define endpoints, offering a more traditional web application experience. Additionally, the Zustand store has been refactored to better suit the full-stack nature of this branch. If you're curious about this version, feel free to visit the branch and explore the extended capabilities of cFlox Converter in a full-stack environment.
 
 ## Getting Started
 
-First, run the development server:
+To run this project locally, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. Clone the repository to your local machine.
+2. Install dependencies using `yarn` or `npm install`.
+3. Start the development server with `yarn dev` or `npm run dev`.
+
+The application will be available at `http://localhost:3000`.
+
+## Technology Stack
+
+- **Next.js:** A React framework providing server-side rendering and generating static websites for React-based web applications.
+- **TypeScript:** A superset of JavaScript that adds static type definitions.
+- **Flowbite-React:** A set of React components built on top of Tailwind CSS and Flowbite.
+- **React Icons:** A library to include popular icons in your React projects.
+- **Tailwind CSS:** A utility-first CSS framework for rapidly building custom designs.
+- **Framer Motion:** A library to easily implement animations in React.
+- **Zustand:** A state management solution for React that doesn't revolve around the use of reducers.
+- **Cypress:** An end-to-end testing framework.
+- **React Hook Form:** A library to manage forms with minimal re-rendering.
+- **Zod:** A TypeScript-first schema validation with static type inference.
+
+## Project Structure
+
+- `src/`: Source files for the application.
+  - `app/`: Core pages and layouts.
+  - `components/`: Reusable UI components.
+  - `config/`: Configuration files, including animations and navigation links.
+  - `hooks/`: Custom React hooks.
+  - `store/`: Zustand stores for state management.
+  - `types/`: TypeScript interfaces and types.
+  - `utils/`: Utility functions, including converters.
+  - `validations/`: Zod schemas for form validation.
+- `public/`: Static assets like images and icons.
+- `cypress/`: Cypress testing files and configurations.
+- `styles/`: Global CSS and Tailwind configuration.
+
+## Features and Implementation
+
+### Converter Pages (`src/app/`)
+
+- **About Page (`about/page.tsx`):** Provides information about cFlox Converter, its purpose, and current features, using `flowbite-react` components and `react-icons`.
+- **Converter Page (`converter/page.tsx`):** Hosts the main functionality for unit and number conversions, integrating `ConverterTabs` and `Glossary` components for a seamless experience.
+
+### Components (`src/components/`)
+
+- **ConverterForm (`Converter/ConverterForm`):** Manages input forms for conversions, employing `react-hook-form` for form handling and `zod` for validation, enhanced with `framer-motion` animations.
+- **ConverterTabs (`Converter/ConverterTabs`):** Facilitates switching between different conversion types, dynamically updating the form and displayed information.
+- **Glossary (`Converter/Glossary`):** Displays helpful information related to specific conversions, such as the Roman Numerals Glossary.
+
+### State Management (`src/store/`)
+
+- **useConverterStore (`useConverterStore.ts`):** Manages application state related to current conversion settings, leveraging `zustand` for an easy-to-use global state.
+
+## Additional Components
+
+### Footer (`src/components/ui/Footer/index.tsx`)
+
+The Footer component, crafted with simplicity and elegance in mind, showcases developer information and provides quick access to social links. Integrated with icons from `react-icons`, it serves as a direct line to the developer's GitHub, StackOverflow, and LinkedIn profiles, reinforcing the project's open-source nature and the developer's commitment to community engagement.
+
+### Navigation (`src/components/ui/Navigation/index.tsx`)
+
+The Navigation component is the cornerstone of user navigation within cFlox Converter. Utilizing `next/link` for efficient routing and `react-icons` for aesthetic enhancement, it seamlessly guides users across the application's core pages: Home, Converters, and About. This component exemplifies a responsive and intuitive navigation bar, adapting perfectly to various device sizes, thanks to Tailwind CSS's utility-first approach.
+
+## Cypress E2E Testing
+
+Cypress tests are meticulously designed to cover end-to-end scenarios, ensuring the application's features perform as expected under real-world conditions. These tests validate the functionality of the Converter and Glossary components, along with the navigation flow, providing a robust safety net against regressions and enhancing the overall quality of the application.
+
+### Test Suites
+
+- **Converter Page Tests:** Validates the core functionality of the converter, including the ability to perform number and unit conversions, handle user inputs, and display results correctly. Special attention is given to loading states and input validation, ensuring a smooth user experience.
+
+- **Glossary Component Tests:** Ensures the Glossary component loads correctly and displays essential information about Roman Numerals, affirming the application's educational value.
+
+- **Navigation Component Tests:** Confirms the presence and functionality of navigation links, ensuring users can easily traverse the application. It tests the visibility of the navigation bar and verifies the correctness of the routing.
+
+These Cypress tests not only attest to the application's reliability but also underscore a commitment to quality and user satisfaction. By automating the validation of user interactions and key functionalities, they facilitate continuous integration and deployment processes, allowing for rapid iterations and consistent performance improvements.
+
+#### Adding a New Converter to cFlox Converter
+
+This guide provides step-by-step instructions on how to add a new converter to the cFlox Converter application.
+
+##### Step 1: Define the Converter Function
+
+Implement the conversion logic in the appropriate module within the `utils/converters` directory. For example, to add a temperature converter:
+
+```typescript
+// utils/converters/temperatureConverters.ts
+
+export const celsiusToFahrenheit = (celsius: string): string => {
+  const celsiusValue = parseFloat(celsius);
+  if (isNaN(celsiusValue)) throw new Error("Invalid input");
+  const fahrenheit = (celsiusValue * 9) / 5 + 32;
+  return fahrenheit.toFixed(2);
+};
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+##### Step 2: Add Validation Schema
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```typescript
+// validations/temperatureConvertersSchema.ts
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+import { z } from "zod";
 
-## Learn More
+export const celsiusToFahrenheitSchema = z.object({
+  inputValue: z
+    .string()
+    .regex(/^[-]?[0-9]+(\.[0-9]+)?$/, "Input must be a valid number"),
+});
+```
 
-To learn more about Next.js, take a look at the following resources:
+##### Step 3: Update Converter Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```typescript
+// config/convertersConfig.ts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+import { celsiusToFahrenheit } from "@/utils/converters/temperatureConverters";
+import { celsiusToFahrenheitSchema } from "@/validations/temperatureConvertersSchema";
+import { TbThermometer } from "react-icons/tb";
 
-## Deploy on Vercel
+export const converterCategories: ConverterConfig[] = [
+  ...,
+  {
+    name: "Temperature Converters",
+    icon: TbThermometer,
+    subCategories: [
+      {
+        name: "Celsius to Fahrenheit",
+        converterFunction: celsiusToFahrenheit,
+        validationSchema: celsiusToFahrenheitSchema,
+        icon: TbThermometer,
+      },
+    ],
+  },
+];
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+##### Step 4: Import and Export in Entry Points
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```typescript
+// utils/converters/index.ts
+
+export * from "./numberConverters";
+export * from "./unitConverters";
+export * from "./temperatureConverters";
+
+// validations/index.ts
+
+export * from "./numberConvertersSchema";
+export * from "./unitConvertersSchema";
+export * from "./temperatureConvertersSchema";
+```
+
+##### Step 5: Incorporate into the Application
+
+With everything in place, the new converter will be recognized by the application. Ensure all imports are correctly referenced where converters are dynamically used.
+
+##### Additional Tips
+
+- Testing: Write unit and end-to-end tests for your new converter.
+- Icons: Choose an appropriate icon for your converter for a better UI experience.

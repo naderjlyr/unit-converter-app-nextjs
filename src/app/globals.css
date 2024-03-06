@@ -11,23 +11,34 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 255, 255, 255;
+    --background-end-rgb: 233, 233, 233;
   }
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-image: linear-gradient(to right, #f9f7f6, #e8e5e3);
+
+  background-repeat: no-repeat;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+/* fix for flowbite-react tabs cyan border*/
+.focus\:ring-cyan-300:focus {
+  --tw-ring-opacity: 0 !important;
+}
+.buttonActive {
+  --tw-gradient-from: #e74694;
+  --tw-gradient-to: rgb(231 70 148 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  background-image: linear-gradient(
+    to right,
+    var(--tw-gradient-from),
+    var(--tw-gradient-to)
+  );
 }
