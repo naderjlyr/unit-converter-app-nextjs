@@ -7,7 +7,7 @@ const Navigation = () => {
     <nav className="bg-gray-800 py-2 md:py-4">
       <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div className="text-white font-semibold text-lg md:text-xl p-2">
-          cFlox Converter
+          Unit Converter
         </div>
 
         {/* Navigation Links */}
