@@ -1,16 +1,15 @@
-# cFlox Converter
-
+# Unit Converter App powered by next.js 14
 ## Introduction
 
-Hello there! I'm thrilled to present the cFlox Converter, a project I undertook as part of the hiring process for the cFlox team. This robust web application is designed to make life easier by facilitating a variety of unit and number conversions. Whether it's converting decimals to Roman numerals, binary to Roman numerals, kilograms to pounds, or centimeters to inches, cFlox Converter has got it covered.
+Hello there! I'm thrilled to present a simple unit Converter app, a project. This robust web application is designed to make life easier by facilitating a variety of unit and number conversions. Whether it's converting decimals to Roman numerals, binary to Roman numerals, kilograms to pounds, or centimeters to inches, This app has got it covered.
 
-Crafted with the modern tech stack of Next.js, TypeScript, and Tailwind CSS, and enhanced with powerful libraries like Flowbite-React and Framer Motion, I aimed to create an application that not only performs well but also offers a delightful user experience. The interface is intuitive, and the design is responsive, making conversions a breeze on any device.
+Crafted with the modern tech stack of React, Next.js 14 App router, TypeScript, and Tailwind CSS, and enhanced with powerful libraries like Flowbite-React and Framer Motion, I aimed to create an application that not only performs well but also offers a delightful user experience. The interface is intuitive, and the design is responsive, making conversions a breeze on any device.
 
 For state management, I opted for Zustand, which provided a seamless way to handle the app's state across various conversions. This choice ensures that the user experience is fluid and hassle-free. Additionally, the application includes comprehensive testing with Cypress to ensure reliability, uses React Hook Form for efficient form handling, and incorporates client-side validations using Zod to maintain data integrity.
 
-This project was a fantastic opportunity for me to showcase my skills and contribute to the cFlox team's innovative efforts. I've poured a lot of dedication and enthusiasm into building the cFlox Converter, and I sincerely hope you enjoy using it as much as I enjoyed creating it. Cheers to making conversions easy and fun!
+This project was a fantastic opportunity for me to showcase my skills a little bit.
 
-Moreover, I'm excited to share that there's another branch of this repository which evolves the project into a full-stack application, moving beyond a single-page application (SPA) architecture. This version leverages Next.js 14's app routing API folder to define endpoints, offering a more traditional web application experience. Additionally, the Zustand store has been refactored to better suit the full-stack nature of this branch. If you're curious about this version, feel free to visit the branch and explore the extended capabilities of cFlox Converter in a full-stack environment.
+Moreover, I'm excited to share that there's another branch of this repository which evolves the project into a full-stack application, moving beyond a single-page application (SPA) architecture. This version leverages Next.js 14's app routing API folder to define endpoints, offering a more traditional web application experience. Additionally, the Zustand store has been refactored to better suit the full-stack nature of this branch. If you're curious about this version, feel free to visit the branch and explore the extended capabilities of Unit Converter app in a full-stack environment.
 
 ## Getting Started
 
@@ -174,3 +173,33 @@ With everything in place, the new converter will be recognized by the applicatio
 
 - Testing: Write unit and end-to-end tests for your new converter.
 - Icons: Choose an appropriate icon for your converter for a better UI experience.
+
+#### Contributing
+
+This project welcomes contributions from the community! Feel free to:
+
+- Suggest new converters: Expand the app's capabilities.
+- Improve existing code: Optimize performance and readability.
+- Fix bugs: Ensure a smooth user experience.
+- Add tests: Enhance the robustness of the codebase.
+  
+**Note** : To contribute, please follow these steps:
+
+- Fork the repository.
+- Create a new branch.
+- Make your changes and commit them.
+- Submit a pull request for review.
+Let's build the best unit converter app together!
+
+#### Acknowledgements
+
+I sincerely appreciate the inspiration and guidance provided by previous examples and feedback.
+
+#### Contact
+
+If you have questions, suggestions, or want to connect, find me on:
+
+- GitHub: https://github.com/naderjlyr
+- StackOverflow: https://stackoverflow.com/users/5389109/naderjlyr
+- LinkedIn: https://linkedin.com/in/nader-jalayeri
+Let me know if you'd like any modifications or have specific features in mind!
